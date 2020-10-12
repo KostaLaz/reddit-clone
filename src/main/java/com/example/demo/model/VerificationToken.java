@@ -18,7 +18,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class VerificationToken {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private Long id;
+    private String id;
     private String token;
     private User user;
     private Instant expiryDate;
