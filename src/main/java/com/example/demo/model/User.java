@@ -5,14 +5,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.time.Instant;
-
-import static javax.persistence.GenerationType.IDENTITY;
 
 @Data
 @AllArgsConstructor
@@ -20,8 +17,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Document(collection = "User")
 public class User {
     @Id
-    @GeneratedValue(strategy = IDENTITY)
-    private Long userId;
+    private String userId;
     @NotBlank(message = "Username is required")
     private String username;
     @NotBlank(message = "Password is required")
