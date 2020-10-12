@@ -15,12 +15,12 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Document
+@Document(collection = "Vote")
 @Builder
 public class Vote {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private String voteId;
+    private Long voteId;
     private VoteType voteType;
     @NotNull
     private Post post;

@@ -15,11 +15,11 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Document
+@Document(collection = "Comment")
 public class Comment {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private String id;
+    private Long id;
     @NotEmpty
     private String text;
     private Post post;

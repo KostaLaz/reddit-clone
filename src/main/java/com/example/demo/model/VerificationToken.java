@@ -14,11 +14,11 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Document
+@Document(collection = "VerificationToken")
 public class VerificationToken {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private String id;
+    private Long id;
     private String token;
     private User user;
     private Instant expiryDate;

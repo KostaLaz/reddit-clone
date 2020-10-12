@@ -17,11 +17,11 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Document
+@Document(collection = "User")
 public class User {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private String userId;
+    private Long userId;
     @NotBlank(message = "Username is required")
     private String username;
     @NotBlank(message = "Password is required")

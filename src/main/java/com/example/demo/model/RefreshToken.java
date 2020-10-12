@@ -11,13 +11,13 @@ import javax.persistence.Id;
 import java.time.Instant;
 
 @Data
-@Document
+@Document(collection = "RefreshToken")
 @AllArgsConstructor
 @NoArgsConstructor
 public class RefreshToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
     private String token;
     private Instant createdDate;
 }

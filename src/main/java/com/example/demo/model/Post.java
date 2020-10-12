@@ -17,14 +17,14 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 
 @Data
-@Document
+@Document(collection = "Post")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Post {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private String postId;
+    private Long postId;
     @NotBlank(message = "Post Name cannot be empty or Null")
     private String postName;
     @Nullable
