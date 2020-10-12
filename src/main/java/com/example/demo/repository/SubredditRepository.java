@@ -5,5 +5,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SubredditRepository extends MongoRepository<Subreddit, Long> {
+public interface SubredditRepository extends MongoRepository<Subreddit, String> {
 }
