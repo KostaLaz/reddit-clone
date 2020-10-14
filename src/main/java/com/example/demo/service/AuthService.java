@@ -59,6 +59,7 @@ public class AuthService {
     private void fetchUserAndEnable(VerificationToken verificationToken){
        String username =  verificationToken.getUser().getUsername();
        User user = userRepository.findByUsername(username).orElseThrow(()-> new SpringRedditException("User Not found with name " + username));
+       user.setEnabled(true);
        userRepository.save(user);
     }
 }
