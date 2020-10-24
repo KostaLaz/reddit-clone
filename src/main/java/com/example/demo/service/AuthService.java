@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.LoginRequest;
 import com.example.demo.dto.RegisterRequest;
 import com.example.demo.exception.SpringRedditException;
 import com.example.demo.model.NotificationEmail;
@@ -62,5 +63,9 @@ public class AuthService {
        User user = userRepository.findByUsername(username).orElseThrow(()-> new SpringRedditException("User Not found with name " + username));
        user.setEnabled(true);
        userRepository.save(user);
+    }
+
+    public void login(LoginRequest loginRequest) {
+
     }
 }
