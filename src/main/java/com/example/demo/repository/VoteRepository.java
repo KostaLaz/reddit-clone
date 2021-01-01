@@ -1,7 +1,9 @@
 package com.example.demo.repository;
 
 import com.example.demo.model.Post;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface VoteRepository extends MongoRepository<Post, String> {
+@Repository
+public interface VoteRepository extends JpaRepository<Post, String> {
 }
