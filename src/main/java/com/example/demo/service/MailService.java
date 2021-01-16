@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.exception.SpringRedditException;
 import com.example.demo.model.NotificationEmail;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +18,7 @@ public class MailService {
     private final JavaMailSender mailSender;
     private final MailContentBuilder mailContentBuilder;
 
-    public void sendEmail(NotificationEmail notificationEmail){
+    public void sendEmail(NotificationEmail notificationEmail) throws SpringRedditException {
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
             mimeMessageHelper.setFrom("example@email.com");
@@ -30,7 +31,7 @@ public class MailService {
             log.info("Activation mail sent.");
         }catch (MailException e){
             log.info("email not sent.");
-            e.printStackTrace();
+            throw new SpringRedditException("Exception occured while trying to send email to: " + notificationEmail.getRecipient());
         }
     }
 
