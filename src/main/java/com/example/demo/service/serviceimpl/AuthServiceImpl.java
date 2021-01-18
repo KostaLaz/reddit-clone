@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.example.demo.service.serviceimpl;
 
 import com.example.demo.dto.RegisterRequest;
 import com.example.demo.exception.SpringRedditException;
@@ -7,7 +7,7 @@ import com.example.demo.model.User;
 import com.example.demo.model.VerificationToken;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.VerificationTokenRepository;
-import com.example.demo.service.iservice.AuthService;
+import com.example.demo.service.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

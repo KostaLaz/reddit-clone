@@ -1,4 +1,4 @@
-package com.example.demo.service.iservice;
+package com.example.demo.service;
 
 import com.example.demo.dto.RegisterRequest;
 import com.example.demo.exception.SpringRedditException;
