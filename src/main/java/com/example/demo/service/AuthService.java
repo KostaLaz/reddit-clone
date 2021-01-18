@@ -6,5 +6,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface AuthService {
-     void signup(RegisterRequest registerRequest) throws SpringRedditException;
+     void signup(RegisterRequest registerRequest);
 }
