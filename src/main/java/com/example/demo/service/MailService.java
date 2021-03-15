@@ -1,4 +1,4 @@
-package com.example.demo.service.serviceimpl;
+package com.example.demo.service;
 
 import com.example.demo.exception.SpringRedditException;
 import com.example.demo.model.NotificationEmail;
