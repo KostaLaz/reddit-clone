@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
@@ -66,11 +67,13 @@ public class AuthServiceImpl{
         }
     }
 
-    private void fetchUserAndEnable(VerificationToken verificationToken) {
+    @Transactional
+    public void fetchUserAndEnable(VerificationToken verificationToken) {
         try {
             String username = verificationToken.getUser().getUsername();
-           User user = userRepository.findByUsername(username).orElseThrow(() -> new SpringRedditException("user with name " + username + " not found."));
+            User user = userRepository.findByUsername(username).orElseThrow(() -> new SpringRedditException("user with name " + username + " not found."));
             user.setEnabled(true);
+            userRepository.save(user);
         }catch(SpringRedditException e){
             e.printStackTrace();
         }
