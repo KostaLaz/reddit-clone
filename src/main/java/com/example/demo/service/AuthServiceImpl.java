@@ -1,4 +1,4 @@
-package com.example.demo.service.serviceimpl;
+package com.example.demo.service;
 
 import com.example.demo.dto.RegisterRequest;
 import com.example.demo.exception.SpringRedditException;
@@ -7,24 +7,25 @@ import com.example.demo.model.User;
 import com.example.demo.model.VerificationToken;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.VerificationTokenRepository;
-import com.example.demo.service.AuthService;
+import jdk.jshell.spi.SPIResolutionException;
 import lombok.AllArgsConstructor;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.Optional;
 import java.util.UUID;
 
 @AllArgsConstructor
-public class AuthServiceImpl implements AuthService {
+@Service
+public class AuthServiceImpl{
 
-    private final PasswordEncoder passwordEncoder;
-    private final UserRepository userRepository;
-    private final VerificationTokenRepository verificationTokenRepository;
     private final MailService mailService;
+    private final VerificationTokenRepository verificationTokenRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public void signup(RegisterRequest registerRequest){
+    public void signup(RegisterRequest registerRequest) {
         User user = new User();
         user.setUsername(registerRequest.getUsername());
         user.setEmail(registerRequest.getEmail());
@@ -55,8 +56,22 @@ public class AuthServiceImpl implements AuthService {
         return token;
     }
 
-    @Bean
-    PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
+    public void verfyAccount(String token) {
+        try {
+            Optional<VerificationToken> verificationToken = verificationTokenRepository.findByToken(token);
+            verificationToken.orElseThrow(() -> new SpringRedditException("Invalid token"));
+            fetchUserAndEnable(verificationToken.get());
+        }catch (SpringRedditException e){
+            e.printStackTrace();
+        }
     }
+
+    private void fetchUserAndEnable(VerificationToken verificationToken) {
+        try {
+            String username = verificationToken.getUser().getUsername();
+            userRepository.findByUsername(username).orElseThrow(() -> new SpringRedditException("user with name " + username + " not found."));
+        }catch(SpringRedditException e){
+            e.printStackTrace();
+        }
+        }
 }
