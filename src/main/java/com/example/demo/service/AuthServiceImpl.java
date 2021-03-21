@@ -1,14 +1,20 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.RegisterRequest;
+import com.example.demo.dto.AuthenticationResponse;
+import com.example.demo.dto.LoginRequestDto;
+import com.example.demo.dto.RegisterRequestDto;
 import com.example.demo.exception.SpringRedditException;
 import com.example.demo.model.NotificationEmail;
 import com.example.demo.model.User;
 import com.example.demo.model.VerificationToken;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.VerificationTokenRepository;
-import jdk.jshell.spi.SPIResolutionException;
+import com.example.demo.security.JWTProvider;
 import lombok.AllArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,12 +31,14 @@ public class AuthServiceImpl{
     private final VerificationTokenRepository verificationTokenRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final JWTProvider jwtProvider;
 
-    public void signup(RegisterRequest registerRequest) {
+    public void signup(RegisterRequestDto registerRequestDto) {
         User user = new User();
-        user.setUsername(registerRequest.getUsername());
-        user.setEmail(registerRequest.getEmail());
-        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+        user.setUsername(registerRequestDto.getUsername());
+        user.setEmail(registerRequestDto.getEmail());
+        user.setPassword(passwordEncoder.encode(registerRequestDto.getPassword()));
         user.setCreated(Instant.now());
         user.setEnabled(false);
 
@@ -77,5 +85,12 @@ public class AuthServiceImpl{
         }catch(SpringRedditException e){
             e.printStackTrace();
         }
-        }
+    }
+
+    public AuthenticationResponse login(LoginRequestDto loginRequestDto) throws SpringRedditException {
+        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequestDto.getUsername(), loginRequestDto.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authenticate);
+        String token = jwtProvider.generateToken(authenticate);
+        return new AuthenticationResponse(token, loginRequestDto.getUsername());
+    }
 }
